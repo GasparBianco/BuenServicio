@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'BuenServicioApp/css/base.css' %}">
+    {% block extra_css %}
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuenServicio</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <h1>BuenServicio</h1>
+            </a>
+            {% if user.is_authenticated %}
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#" class="nav-link">Mesas</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Administracion</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'tables' %}">Mesas</a>
+                        <a href="#">Articulos</a>
+                        <a href="#">Usuarios</a>
+                <li class="nav-item"><a href="/accounts/checklogout/" class="nav-link">Cerrar sesión</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </header>
+    {% block content %}
+    {% endblock  %}    
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2023 BuenServicio. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

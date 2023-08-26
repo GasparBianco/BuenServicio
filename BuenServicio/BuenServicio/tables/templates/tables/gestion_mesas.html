@@ -1,0 +1,43 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tables/css/gestion_mesas.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.method == 'POST' %}
+    <h3>{{ confirmation }}</h3>
+{% endif %}
+<div class="container-tables">
+    <div class="left-container">
+        <h2>Mesas Registradas</h2>
+        <a href="{% url 'delete_all_tables' %}">Eliminar todas</a>
+        <ul class="mesas-list">
+            {% for table in tables %}
+                <li>                    
+                    <form method="post" action="{% url 'delete_one_table' %}">
+                        Mesa {{ table }}
+                        <input type="hidden" name="number" value="{{ table }}">
+                        {% csrf_token %}
+                        <button class="button" name="delete" type="submit">Eliminar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="right-container">
+        <h2>Agregar mesas</h2>
+        <form method="post" action="{% url 'add_one_table' %}">
+            {% csrf_token %}
+            {{ one_table_form.as_p }}
+            <button class="button" type="submit" name="one_table_form_submit">Enviar Formulario OneTableForm</button>
+        </form>
+        <form method="post" action="{% url 'add_manye_tables' %}">
+            {% csrf_token %}
+            {{ many_table_form.as_p }}
+            <button class="button" type="submit" name="many_table_form_submit">Enviar Formulario ManyTableForm</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

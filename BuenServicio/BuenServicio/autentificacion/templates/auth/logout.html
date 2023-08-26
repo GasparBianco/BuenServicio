@@ -1,0 +1,11 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'autentificacion/css/logout.css' %}">
+{% endblock extra_css %}
+{% block content %}
+    <div class="logout-container">
+        <h2>Has cerrado sesión</h2>
+        <p>Para volver a iniciar sesión, <a href="{% url 'login' %}">haz clic aquí</a></p>
+    </div>
+{% endblock %}
