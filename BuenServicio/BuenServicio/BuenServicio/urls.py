@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('BuenServicioApp.urls')),
     path('accounts/', include('autentificacion.urls')),
     path('tables/', include('tables.urls')),
+    path('products/', include('products.urls'))
     ]
 
 urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

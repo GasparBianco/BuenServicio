@@ -1,0 +1,82 @@
+.container-products {
+    justify-content: space-around;
+    max-height: 70vh;
+    gap: 10px;
+    display: flex;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.products-list{
+    list-style: none;
+    height: 70%;
+    overflow: auto; 
+}
+
+.products-list li{
+    display: flex;
+}
+
+/* Estilos para los formularios */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+.left-container,
+.center-container,
+.right-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+}
+
+.products-list {
+    list-style: none;
+    padding: 0;
+}
+
+.products-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.products-list li:last-child {
+    border-bottom: none;
+}
+
+  /* Estilos para los enlaces */
+  a {
+    text-decoration: none;
+    color: #848dff;
+    margin-right: 10px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilos para los títulos */
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    margin: 10px 0;
+  }
+  

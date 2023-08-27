@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 
 urlpatterns = [
@@ -6,5 +6,5 @@ urlpatterns = [
     path('deleteonetable/', views.deleteOneTable, name='delete_one_table'),
     path('deletealltables/', views.deleteAllTables, name='delete_all_tables'),
     path('addonetable/', views.addOneTable, name='add_one_table'),
-    path('addmanytables/', views.addManyTables, name='add_manye_tables'),
+    path('addmanytables/', views.addManyTables, name='add_many_tables'),
     ]

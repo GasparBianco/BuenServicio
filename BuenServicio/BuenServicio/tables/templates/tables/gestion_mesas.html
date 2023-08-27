@@ -33,7 +33,7 @@
             {{ one_table_form.as_p }}
             <button class="button" type="submit" name="one_table_form_submit">Enviar Formulario OneTableForm</button>
         </form>
-        <form method="post" action="{% url 'add_manye_tables' %}">
+        <form method="post" action="{% url 'add_many_tables' %}">
             {% csrf_token %}
             {{ many_table_form.as_p }}
             <button class="button" type="submit" name="many_table_form_submit">Enviar Formulario ManyTableForm</button>

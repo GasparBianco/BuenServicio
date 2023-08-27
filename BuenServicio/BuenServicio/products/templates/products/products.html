@@ -1,0 +1,89 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/products.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.method == 'POST' %}
+    <h3>{{ confirmation }}</h3>
+{% endif %}
+<div class="container-products">
+    <div class="left-container">
+        <h2>Productos Registrados</h2>
+        <a href="{% url 'update_all_products' %}">Actualizar todos los productos</a>
+        <a href="{% url 'delete_all_products' %}">Eliminar todos los productos</a>
+        <input type="text" id="search-input" placeholder="Buscar productos">
+        <ul class="products-list" id="search-results">
+        </ul>
+    </div>
+    <div class="center-container">
+        <h2>Categorias Registradas</h2>
+        <a href="{% url 'delete_all_categories' %}">Eliminar todas las categorias</a>
+        <ul class="products-list">
+            {% for category in categories %}
+                <li>                    
+                    <form method="post" action="{% url 'delete_one_category' %}">
+                        {{ category }}
+                        <input type="hidden" name="id" value="{{ category.id }}">
+                        {% csrf_token %}
+                        <button class="button" name="delete" type="submit">Eliminar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="right-container">
+        <h2>Agregar productos</h2>
+        <form method="post" action="{% url 'add_product' %}">
+            {% csrf_token %}
+            {{ ProductForm.as_p }}
+            <button class="button" type="submit" name="product_form_submit">Agregar</button>
+        </form>
+        <h2>Agregar categorias</h2>
+        <form method="post" action="{% url 'add_category' %}">
+            {% csrf_token %}
+            {{ ProductCategoryForm.as_p }}
+            <button class="button" type="submit" name="product_category_form_submit">Agregar</button>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function performSearch() {
+        var query = $('#search-input').val();
+        $.get('{% url "search_products" %}', {query: query}, function(data) {
+            var results = JSON.parse(data.products);
+            var resultsHtml = '';
+            for (var i = 0; i < results.length; i++) {
+                resultsHtml += '<li>' +
+                    '<p>' + results[i].fields.name + '</p>' +
+                    '<p>$' + results[i].fields.cost + '</p>' +
+                    '<form method="post" action="{% url "update_one_product" %}">' +
+                    '{% csrf_token %}' +
+                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
+                    '<button class="button" type="submit">Editar</button>' +
+                    '</form>' +
+                    '<form method="post" action="{% url "delete_one_product" %}">' +
+                    '{% csrf_token %}' +
+                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
+                    '<button class="button" type="submit">Eliminar</button>' +
+                    '</form>' +
+                    '</li>';
+            }
+
+            $('#search-results').html('<ul class="products-list">' + resultsHtml + '</ul>');
+        });
+    }
+
+    $(document).ready(function() {
+        performSearch();
+
+        $('#search-input').on('input', function() {
+            performSearch();
+        });
+    });
+</script>
+
+{% endblock %}

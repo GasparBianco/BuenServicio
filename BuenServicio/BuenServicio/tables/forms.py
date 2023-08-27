@@ -1,4 +1,3 @@
-from typing import Any, Dict
 from django import forms
 
 class OneTableForm(forms.Form):

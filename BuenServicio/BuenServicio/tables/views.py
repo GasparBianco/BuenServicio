@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Table
 from .forms import OneTableForm, ManyTableForm
 from django.db import IntegrityError
