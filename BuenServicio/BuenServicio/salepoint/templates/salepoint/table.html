@@ -1,0 +1,69 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/home.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Mesa {{table.number}}</h1>
+    </div>
+    <div class="left-container">
+        <h2>Agregar Productos</h2>
+        <a href="{% url 'delete_all_products' %}">Eliminar todos los productos</a>
+        <input type="text" id="search-input" placeholder="Buscar productos">
+        <form action="{% url 'home' %}" method="post" id="product-form">
+            {% csrf_token %}
+            <ul class="products-list" id="search-results">
+            </ul>
+            <input type="submit" value="Guardar Productos">
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function performSearch() {
+        var query = $('#search-input').val();
+        $.get('{% url "search_products" %}', { query: query }, function (data) {
+            var results = JSON.parse(data.products);
+            var resultsHtml = '';
+            for (var i = 0; i < results.length; i++) {
+                resultsHtml += '<li>' +
+                    '<p>' + results[i].fields.name + '</p>' +
+                    '<p>$' + results[i].fields.cost + '</p>' +
+                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
+                    '<input type="number" name="quantity" value="1">' +
+                    '</li>';
+            }
+
+            $('#search-results').html('<ul class="products-list">' + resultsHtml + '</ul>');
+        });
+    }
+
+    $(document).ready(function () {
+        performSearch();
+
+        $('#search-input').on('input', function () {
+            performSearch();
+        });
+
+        $('#product-form').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'post',
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Manejar la respuesta del servidor si es necesario.
+                },
+                error: function (error) {
+                    // Manejar errores de la solicitud.
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+

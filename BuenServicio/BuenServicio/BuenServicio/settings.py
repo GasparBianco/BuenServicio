@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'autentificacion',
     'tables',
     'products',
+    'salepoint',
 ]
 
 MIDDLEWARE = [
