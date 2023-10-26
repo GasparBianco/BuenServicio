@@ -23,47 +23,6 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function performSearch() {
-        var query = $('#search-input').val();
-        $.get('{% url "search_products" %}', { query: query }, function (data) {
-            var results = JSON.parse(data.products);
-            var resultsHtml = '';
-            for (var i = 0; i < results.length; i++) {
-                resultsHtml += '<li>' +
-                    '<p>' + results[i].fields.name + '</p>' +
-                    '<p>$' + results[i].fields.cost + '</p>' +
-                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                    '<input type="number" name="quantity" value="1">' +
-                    '</li>';
-            }
-
-            $('#search-results').html('<ul class="products-list">' + resultsHtml + '</ul>');
-        });
-    }
-
-    $(document).ready(function () {
-        performSearch();
-
-        $('#search-input').on('input', function () {
-            performSearch();
-        });
-
-        $('#product-form').on('submit', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'post',
-                data: $(this).serialize(),
-                success: function (data) {
-                    // Manejar la respuesta del servidor si es necesario.
-                },
-                error: function (error) {
-                    // Manejar errores de la solicitud.
-                }
-            });
-        });
-    });
-</script>
+<script src="{% static 'salepoint/js/script.js' %}"></script>
 {% endblock %}
 
