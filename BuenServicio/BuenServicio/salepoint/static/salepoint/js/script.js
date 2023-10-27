@@ -11,8 +11,8 @@ fetch(url)
   }).then(results => {
     $('#search-input').on('input', function() {
         const inputValue = $(this).val();
-        let filteredData = performSearch(results, inputValue);
-        showResults(filteredData)
+        performSearch(results, inputValue);
+        //showResults(filteredData)
     });
   })
   .catch(error => {
@@ -25,27 +25,28 @@ fetch(url)
 function showResults(results) {
         var resultsHtml = '';
         for (var i = 0; i < results.length; i++) {
-            resultsHtml += '<li>' +
+            resultsHtml += '<li class="result-item" id="' + results[i].pk + '">' +
                 '<p>' + results[i].fields.name + '</p>' +
                 '<p>$' + results[i].fields.cost + '</p>' +
-                '<form method="post" action="{% url "update_one_product" %}">' +
-                '{% csrf_token %}' +
                 '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                '<button class="button" type="submit">Editar</button>' +
-                '</form>' +
-                '<form method="post" action="{% url "delete_one_product" %}">' +
-                '{% csrf_token %}' +
-                '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                '<button class="button" type="submit">Eliminar</button>' +
-                '</form>' +
+                '<input name="quantity" type="number">' +
                 '</li>';
         }
 
-        $('#search-results').html('<ul class="products-list">' + resultsHtml + '</ul>');
+        $('#search-results').html(resultsHtml);
     };
 
-function performSearch(data, searchValue){
-
-    searchValue = searchValue.toLowerCase();
-    return data.filter(objeto => objeto.fields.name.toLowerCase().includes(searchValue));
-}
+    function performSearch(data, searchValue) {
+      searchValue = searchValue.toLowerCase();
+      data.forEach(function(item) {
+        var element = document.getElementById(item.pk);
+        
+        if (element) {
+          if (item.fields.name.toLowerCase().includes(searchValue)) {
+            element.style.display = 'block';
+          } else {
+            element.style.display = 'none';
+          }
+        }
+      });
+    }

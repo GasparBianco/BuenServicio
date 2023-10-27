@@ -10,7 +10,5 @@ def table(request, table):
     context = {'table':Table.objects.get(number=table)}
     if request.method ==  'POST':
         print(request.POST)
-        context['order'] = Order.objects.get(number=table)
-
     
     return render(request, 'salepoint/table.html', context)

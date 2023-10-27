@@ -11,9 +11,8 @@
     </div>
     <div class="left-container">
         <h2>Agregar Productos</h2>
-        <a href="{% url 'delete_all_products' %}">Eliminar todos los productos</a>
         <input type="text" id="search-input" placeholder="Buscar productos">
-        <form action="{% url 'home' %}" method="post" id="product-form">
+        <form action="/{{ table.number }}" method="post" id="product-form">
             {% csrf_token %}
             <ul class="products-list" id="search-results">
             </ul>
