@@ -14,6 +14,7 @@
         <input type="text" id="search-input" placeholder="Buscar productos">
         <form action="/{{ table.number }}" method="post" id="product-form">
             {% csrf_token %}
+            <input type="hidden" name="table-id" value="{{ table.id }}">
             <ul class="products-list" id="search-results">
             </ul>
             <input type="submit" value="Guardar Productos">

@@ -24,12 +24,13 @@ fetch(url)
 
 function showResults(results) {
         var resultsHtml = '';
+        console.log(results)
         for (var i = 0; i < results.length; i++) {
             resultsHtml += '<li class="result-item" id="' + results[i].pk + '">' +
                 '<p>' + results[i].fields.name + '</p>' +
                 '<p>$' + results[i].fields.cost + '</p>' +
                 '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                '<input name="quantity" type="number">' +
+                '<input name="quantity" type="number" value="0" min="0">' +
                 '</li>';
         }
 
