@@ -118,10 +118,9 @@ def updateAllProducts(request):
 
     if 'update' in request.POST:
         factor = request.POST.get('factor')
-        print(factor)
         form = FactorForm(request.POST)
         if form.is_valid():
-            Product.objects.update(cost=F('cost') * factor)
+            Product.objects.update(cost=F('cost') * float(factor))
             confirmation = "Precios actualizados con exito"
         else:
             confirmation = "El factor ingresado debe ser mayor a 0"

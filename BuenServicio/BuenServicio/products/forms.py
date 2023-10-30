@@ -20,7 +20,7 @@ class ProductCategoryForm(ModelForm):
 
 class FactorForm(forms.Form):
 
-    factor = forms.IntegerField()
+    factor = forms.FloatField()
 
     def clean_factor(self):
         factor = self.cleaned_data.get('factor')

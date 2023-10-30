@@ -1,26 +1,44 @@
 {% extends 'BuenServicioApp/base.html' %}
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/table.css' %}">
 {% endblock extra_css %}
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
+<h1>Mesa {{table.number}}</h1>
     <div class="container">
-        <h1>Mesa {{table.number}}</h1>
-    </div>
-    <div class="left-container">
-        <h2>Agregar Productos</h2>
-        <input type="text" id="search-input" placeholder="Buscar productos">
-        <form action="/{{ table.number }}" method="post" id="product-form">
-            {% csrf_token %}
-            <input type="hidden" name="table-id" value="{{ table.id }}">
-            <ul class="products-list" id="search-results">
+        
+        <div class="left-container">
+            <h2>Agregar Productos</h2>
+            <input type="text" id="search-input" placeholder="Buscar productos">
+            <form action="/{{ table.number }}/addproduct" method="post" id="product-form">
+                {% csrf_token %}
+                <input type="hidden" name="table-id" value="{{ table.id }}">
+                <ul class="products-list" id="search-results">
+                </ul>
+                <input type="submit" value="Guardar Productos">
+            </form>
+        </div>
+        <div class="center-container">
+            <h2>Productos consumidos</h2>
+            <ul class="products-list">
+                {% for product in order %}
+                    <li>                    
+                        {{ product.product }}: {{ product.quantity }} {{ product.timestamp }}
+                    </li>
+                {% endfor %}
             </ul>
-            <input type="submit" value="Guardar Productos">
-        </form>
+        </div>
     </div>
+<div class="buttons-container">
+    <a href="#">Cobrar</a>
+    <a href="#">Precuenta</a>
+    <a href="#">Editar Productos</a>
+    <a id="reset" href="/{{ table.number }}/resettable" onclick="return confirm('¿Seguro que deseas reiniciar la mesa?')">Reiniciar Mesa</a>
+
 </div>
+    
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'salepoint/js/script.js' %}"></script>

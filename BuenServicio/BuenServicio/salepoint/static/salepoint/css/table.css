@@ -1,0 +1,39 @@
+.container {
+    justify-content: space-around;
+    max-height: 70vh;
+    gap: 10px;
+    display: flex;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.left-container,
+.center-container,
+.right-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+    overflow: auto;
+}
+
+.buttons-container{
+    position: relative;
+    margin: auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttons-container a{
+    color: inherit;
+    background-color: #ccc;
+    text-decoration: none;
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}

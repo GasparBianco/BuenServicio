@@ -6,16 +6,16 @@
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="home-container">
         <ul>
             {% for table in tables %}
-                <li>
+                <li                    
+                {% if table.available %} 
+                style="background-color: green;" 
+                {% else %}
+                style="background-color: red;" 
+                {% endif %} >
                     <a 
-                    {% if table.available %} 
-                        style="background-color: green;" 
-                    {% else %}
-                        style="background-color: red;" 
-                    {% endif %} 
                     href="/{{ table.number }}">Mesa {{ table.number }}</a>             
                 </li>
             {% endfor %}
