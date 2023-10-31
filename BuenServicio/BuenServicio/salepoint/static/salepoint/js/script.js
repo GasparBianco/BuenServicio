@@ -26,12 +26,12 @@ function showResults(results) {
         var resultsHtml = '';
         console.log(results)
         for (var i = 0; i < results.length; i++) {
-            resultsHtml += '<li class="result-item" id="' + results[i].pk + '">' +
-                '<p>' + results[i].fields.name + '</p>' +
-                '<p>$' + results[i].fields.cost + '</p>' +
-                '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                '<input name="quantity" type="number" value="0" min="0">' +
-                '</li>';
+            resultsHtml += '<tr class="result-item" id="' + results[i].pk + '">' +
+            '<input type="hidden" name="id" value="' + results[i].pk + '">' +
+            '<td>' + results[i].fields.name + '</td>' +
+            '<td>$' + results[i].fields.cost + '</td>' +
+            '<td><input name="quantity" type="number" value="0" min="0"></td>' +
+            '</tr>';
         }
 
         $('#search-results').html(resultsHtml);
@@ -44,7 +44,7 @@ function showResults(results) {
         
         if (element) {
           if (item.fields.name.toLowerCase().includes(searchValue)) {
-            element.style.display = 'block';
+            element.style.display = '';
           } else {
             element.style.display = 'none';
           }

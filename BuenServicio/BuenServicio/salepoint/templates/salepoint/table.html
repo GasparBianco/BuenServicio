@@ -1,5 +1,6 @@
 {% extends 'BuenServicioApp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/table.css' %}">
 {% endblock extra_css %}
@@ -15,31 +16,51 @@
             <form action="/{{ table.number }}/addproduct" method="post" id="product-form">
                 {% csrf_token %}
                 <input type="hidden" name="table-id" value="{{ table.id }}">
-                <ul class="products-list" id="search-results">
+                <table class="result-table">
+                    <thead><tr>
+                        <th>Nombre del Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad a Ordenar</th>
+                    </tr></thead>
+                    <tbody id="search-results">
+                    </tbody></table>
                 </ul>
                 <input type="submit" value="Guardar Productos">
             </form>
         </div>
         <div class="center-container">
             <h2>Productos consumidos</h2>
-            <ul class="products-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Cantidad</th>
+                        <th>Costo</th>
+                        <th>Hora de la Venta</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for product in order %}
-                    <li>                    
-                        {{ product.product }}: {{ product.quantity }} {{ product.total }}
-                    </li>
+                    <tr>  
+                        <td>{{ product.product }}</td>    
+                        <td>{{ product.quantity }}</td>
+                        <td>${{ product.total }}</td>              
+                        <td>{{ product.timestamp|date:"H:i" }}</td>
+                    </tr>
                 {% endfor %}
-            </ul>
-            <h3>Total: {{ total }}</h3>
+            </tbody>
+        </table>
+            <h3>Total: ${{ total }}</h3>
         </div>
     </div>
+    {% if request.user|has_group:"Cajero" or request.user|has_group:"Encargado" %} 
 <div class="buttons-container">
     <a href="#">Cobrar</a>
     <a href="#">Precuenta</a>
     <a href="#">Editar Productos</a>
     <a id="reset" href="/{{ table.number }}/resettable" onclick="return confirm('¿Seguro que deseas reiniciar la mesa?')">Reiniciar Mesa</a>
-
 </div>
-    
+    {% endif %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'salepoint/js/script.js' %}"></script>

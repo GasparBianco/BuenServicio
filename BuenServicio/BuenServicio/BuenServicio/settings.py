@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tables',
     'products',
     'salepoint',
+    'users',
 ]
 
 MIDDLEWARE = [
