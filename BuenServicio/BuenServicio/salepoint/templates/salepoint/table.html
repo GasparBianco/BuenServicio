@@ -25,10 +25,11 @@
             <ul class="products-list">
                 {% for product in order %}
                     <li>                    
-                        {{ product.product }}: {{ product.quantity }} {{ product.timestamp }}
+                        {{ product.product }}: {{ product.quantity }} {{ product.total }}
                     </li>
                 {% endfor %}
             </ul>
+            <h3>Total: {{ total }}</h3>
         </div>
     </div>
 <div class="buttons-container">

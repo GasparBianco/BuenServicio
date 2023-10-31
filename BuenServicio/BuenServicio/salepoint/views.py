@@ -11,8 +11,12 @@ def home(request):
 def table(request, table):
     table = Table.objects.get(number=table)
     order = Order.objects.filter(table=table.id)
+    total = 0
+    for i in order:
+        total += i.total
     context = { 'table':table,
-                'order': order}                
+                'order': order,
+                'total': total}                
     
     return render(request, 'salepoint/table.html', context)
 
@@ -25,8 +29,9 @@ def order(request, table_number):
     for i in range(len(request.POST.getlist('id'))):
         product = Product.objects.get(id=id_list[i])
         quantity = quantity_list[i]
+        total = product.cost * int(quantity)
         if int(quantity) != 0:
-            Order(product=product, quantity=int(quantity), table=table_id).save()
+            Order(product=product, quantity=int(quantity), table=table_id, total = total).save()
     return redirect('table', table=table_number)
 
 def reset_table(request, table_number):
