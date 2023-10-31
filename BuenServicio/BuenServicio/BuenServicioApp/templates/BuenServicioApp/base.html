@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     {% load static %}
+    {% load custom_filters %}
     <link rel="stylesheet" href="{% static 'BuenServicioApp/css/base.css' %}">
     {% block extra_css %}
     {% endblock %}
@@ -18,12 +19,14 @@
             {% if user.is_authenticated %}
             <ul class="nav-list">
                 <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Mesas</a></li>
+                {% if request.user|has_group:"Encargado" %} 
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link">Administracion</a>
                     <div class="dropdown-content">
                         <a href="{% url 'tables' %}">Mesas</a>
                         <a href="{% url 'products' %}">Productos</a>
                         <a href="#">Usuarios</a>
+                {% endif %}
                 <li class="nav-item"><a href="/accounts/checklogout/" class="nav-link">Cerrar sesión</a></li>
             </ul>
             {% endif %}

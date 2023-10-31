@@ -64,7 +64,7 @@ def deleteOneTable(request):
     return render(request, 'tables/gestion_mesas.html', context)
 
 def gestion_mesas(request):
-    tables = Table.objects.values_list('number', flat=True)
+    tables = Table.objects.order_by('number').values_list('number', flat=True)
     context = {
         'tables':tables,
         'one_table_form': OneTableForm(),
