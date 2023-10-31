@@ -1,11 +1,13 @@
 {% extends 'BuenServicioApp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'tables/css/gestion_mesas.css' %}">
 {% endblock extra_css %}
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
+{% if request.user|has_group:"Encargado" %}
 {% if request.method == 'POST' %}
     <h3>{{ confirmation }}</h3>
 {% endif %}
@@ -40,4 +42,5 @@
         </form>
     </div>
 </div>
+{% endif %}
 {% endblock %}

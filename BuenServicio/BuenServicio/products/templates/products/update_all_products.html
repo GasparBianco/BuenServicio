@@ -1,15 +1,18 @@
 {% extends 'BuenServicioApp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'products/css/products.css' %}">
 {% endblock extra_css %}
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
+{% if request.user|has_group:"Encargado" %}
     <h2>Editar Producto</h2>
     <form method="post" action="{% url 'update_all_products' %}">
         {% csrf_token %}
         {{ FactorForm.as_p }}
         <button class="button" name="update" type="submit">Guardar Cambios</button>
     </form>
+    {% endif %}
 {% endblock %}

@@ -1,17 +1,20 @@
 {% extends 'BuenServicioApp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'tables/css/checklogout.css' %}">
 {% endblock extra_css %}
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
-    <div class="check-container">
-        <h2>Eliminar Todas las categorias</h2>
-        <p>¿Estás seguro de que deseas eliminar todas las categorias registradas?</p>
-        <form method="post" action="{% url 'delete_all_categories' %}">
-            {% csrf_token %}
-            <button class="button" name="delete" type="submit">Eliminar todas</button>
-        </form>
-    </div>
+{% if request.user|has_group:"Encargado" %} 
+<div class="check-container">
+    <h2>Eliminar Todas las categorias</h2>
+    <p>¿Estás seguro de que deseas eliminar todas las categorias registradas?</p>
+    <form method="post" action="{% url 'delete_all_categories' %}">
+        {% csrf_token %}
+        <button class="button" name="delete" type="submit">Eliminar todas</button>
+    </form>
+</div>
+{% endif %}
 {% endblock %}
