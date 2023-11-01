@@ -7,7 +7,7 @@
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
-{% if request.user|has_group:"Encargado" %} 
+{% if request.user|has_group:"Encargado" or request.user|has_group:"Administrador" %} 
 <div class="check-container">
     <h2>Eliminar Todos los productos</h2>
     <p>¿Estás seguro de que deseas eliminar todos los productos registrados?</p>

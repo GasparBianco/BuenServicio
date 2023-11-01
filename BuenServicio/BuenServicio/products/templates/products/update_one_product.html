@@ -7,7 +7,7 @@
 {% block title %}BuenServicio{% endblock %}
 
 {% block content %}
-{% if request.user|has_group:"Encargado" %}
+{% if request.user|has_group:"Encargado" or request.user|has_group:"Administrador" %}
     <h2>Editar Producto</h2>
     <form method="post">
         {% csrf_token %}

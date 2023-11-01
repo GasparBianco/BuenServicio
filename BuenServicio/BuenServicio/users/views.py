@@ -25,5 +25,6 @@ def add_user(request):
 
 def delete_user(request, username):
     user = User.objects.get(username=username)
-    user.delete()
+    if str(user.groups.first()) != 'Administrador':
+        user.delete()
     return redirect('users')

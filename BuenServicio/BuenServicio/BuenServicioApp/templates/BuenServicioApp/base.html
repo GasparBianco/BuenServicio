@@ -19,7 +19,7 @@
             {% if user.is_authenticated %}
             <ul class="nav-list">
                 <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Mesas</a></li>
-                {% if request.user|has_group:"Encargado" %} 
+                {% if request.user|has_group:"Encargado" or request.user|has_group:"Administrador" %} 
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link">Administracion</a>
                     <div class="dropdown-content">
