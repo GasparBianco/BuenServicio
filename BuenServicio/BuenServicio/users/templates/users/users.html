@@ -1,0 +1,40 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/users.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.user|has_group:"Encargado" %}
+<div>
+    <h3>Usuarios</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Posición</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <th>{{user.username}}</th>
+                <th>{{user.groups.first}}</th>
+                <th>
+                    <form method="post" action="{% url 'delete_user' user.username %}">
+                        {% csrf_token %}
+                        <button onclick="return confirm('¿Seguro que deseas eliminar este usuario?')" type="submit">Eliminar</button>
+                    </form>
+                </th>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'addusers' %}">Agregar usuario</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/adduser.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+
+{% if request.user|has_group:"Encargado" %}
+{% if request.method == 'POST' %}
+<p>Usuario creado correctamente</p>
+{% endif %}
+<form action="{% url 'addusers' %}" method="post">
+    {% csrf_token %}
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+    
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    
+    <label for="group">Grupo</label>
+    <select name="group" id="group">
+        {% for grupo in grupos %}
+            <option value="{{ grupo.name }}">{{ grupo.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <button class="button" type="submit" name="addUserButton">Agregar</button>
+</form>
+{% endif %}
+{% endblock %}
