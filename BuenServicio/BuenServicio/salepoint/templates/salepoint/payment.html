@@ -1,0 +1,42 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/table.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+<h1>Mesa {{table.number}}</h1>
+    <div class="container">
+        <div class="center-container">
+            <h2>Productos consumidos</h2>
+            <form action="" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Cantidad</th>
+                        <th>Costo</th>
+                        <th>Hora de la Venta</th>
+                        <th>Descuento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in order %}
+                    <tr>  
+                        <td>{{ product.product }}</td>    
+                        <td>{{ product.quantity }}</td>
+                        <td>${{ product.total }}</td>              
+                        <td>{{ product.timestamp|date:"H:i" }}</td>
+                        <td><input type="number" name="discount" value="0" min="0" max="100"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+            <h3>Total: ${{ total }}</h3>
+        </form>
+        </div>
+    </div>
+{% endblock %}
+
