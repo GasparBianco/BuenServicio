@@ -1,0 +1,47 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cashier/css/cashier.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.user|has_group:"Cajero" %}
+<p>{{ message }}</p>
+<table>
+    <thead>
+        <tr>
+            <th>Cajero</th>
+            <th>Saldo inicial</th>
+            <th>Saldo teorico</th>
+            <th>Saldo final</th>
+            <th>Fecha de apertura</th>
+            <th>Fecha de cierre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in cashier %}
+        <tr>
+            <th>{{i.cashier_user}}</th>
+            <th>{{i.open_money}}</th>
+            <th>{{i.theorical_money}}</th>
+            <th>{{i.close_money}}</th>
+            <th>{{i.open_date}}</th>
+            <th>{{i.close_date}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form method="post" action="{% url 'open_cashier' %}">
+    {% csrf_token %}
+    <input type="number" name="open" placeholder="Saldo inicial" required>
+    <button onclick="return confirm('¿Seguro que deseas abrir caja? Esta accion no se puede deshacer')" type="submit">Abrir caja</button>
+</form>
+<form method="post" action="{% url 'close_cashier' %}">
+    {% csrf_token %}
+    <input type="number" name="close" placeholder="Saldo final" required>
+    <input onclick="return confirm('¿Seguro que deseas cerrar caja? Esta accion no se puede deshacer')" type="submit" value="Cerrar caja">
+</form>
+{% endif %}
+{% endblock %}
