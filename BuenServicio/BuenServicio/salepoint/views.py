@@ -3,6 +3,7 @@ from tables.models import Table
 from .models import Order
 from products.models import Product
 from django.shortcuts import redirect
+from django.contrib import messages
 
 def home(request):
     tables = Table.objects.all().order_by('number')
@@ -16,7 +17,8 @@ def table(request, table):
         total += i.total
     context = { 'table':table,
                 'order': order,
-                'total': total}                
+                'total': total,
+                'message': list(messages.get_messages(request))}                
     
     return render(request, 'salepoint/table.html', context)
 
