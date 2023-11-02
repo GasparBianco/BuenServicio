@@ -12,31 +12,67 @@
         <div class="center-container">
             <h2>Productos consumidos</h2>
             <form action="" method="post">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre del Producto</th>
-                        <th>Cantidad</th>
-                        <th>Costo</th>
-                        <th>Hora de la Venta</th>
-                        <th>Descuento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for product in order %}
-                    <tr>  
-                        <td>{{ product.product }}</td>    
-                        <td>{{ product.quantity }}</td>
-                        <td>${{ product.total }}</td>              
-                        <td>{{ product.timestamp|date:"H:i" }}</td>
-                        <td><input type="number" name="discount" value="0" min="0" max="100"></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-            <h3>Total: ${{ total }}</h3>
-        </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad</th>
+                            <th>Costo</th>
+                            <th>Hora de la Venta</th>
+                            <th>Descuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in order %}
+                        <tr>
+                            <td>{{ product.product }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td class="costo-individual">${{ product.total }}</td>
+                            <td>{{ product.timestamp|date:"H:i" }}</td>
+                            <td>
+                                <input class="discount-input" type="number" name="discount" value="0" min="0" max="100">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Total: $<span id="total">{{ total }}</span></h3>
+            </form>
         </div>
     </div>
+            <script>
+                // Obtén todos los elementos de entrada con la clase 'discount-input'
+                const discountInputs = document.querySelectorAll('.discount-input');
+        
+                // Agrega un evento 'input' a cada campo de descuento
+                discountInputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        // Calcula el costo total en tiempo real
+                        actualizarCostoTotal();
+                    });
+                });
+        
+                function actualizarCostoTotal() {
+                    // Obtén el elemento que muestra el costo total
+                    const totalElement = document.getElementById('total');
+                    let costoTotal = 0;
+        
+                    // Recorre todas las filas de la tabla
+                    const filas = document.querySelectorAll('tbody tr');
+                    filas.forEach(fila => {
+                        // Obtiene el costo individual de cada producto en esta fila
+                        const costoProducto = parseFloat(fila.querySelector('.costo-individual').textContent.slice(1));
+                        // Obtiene el valor de descuento ingresado en esta fila
+                        const descuento = parseFloat(fila.querySelector('.discount-input').value);
+                        costoTotal += costoProducto * (1 - descuento / 100);
+                    });
+        
+                    // Actualiza el elemento que muestra el costo total
+                    totalElement.textContent = costoTotal.toFixed(2);
+                }
+        
+                // Llama a la función inicialmente para calcular el costo total
+                actualizarCostoTotal();
+            </script>
 {% endblock %}
 

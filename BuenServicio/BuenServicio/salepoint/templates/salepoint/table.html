@@ -55,7 +55,7 @@
     </div>
     {% if request.user|has_group:"Cajero" or request.user|has_group:"Encargado" %} 
 <div class="buttons-container">
-    <a href="#">Cobrar</a>
+    <a href="{% url 'payment' table.number %}">Cobrar</a>
     <a href="#">Precuenta</a>
     <a href="#">Editar Productos</a>
     <a id="reset" href="/{{ table.number }}/resettable" onclick="return confirm('¿Seguro que deseas reiniciar la mesa?')">Reiniciar Mesa</a>

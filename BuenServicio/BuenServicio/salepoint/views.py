@@ -40,3 +40,14 @@ def reset_table(request, table_number):
     Order.objects.filter(table=table_id).delete()
     Table.objects.filter(id = table_id).update(available=True)
     return redirect('table', table=table_number)
+
+def payment(request, table):
+    table = Table.objects.get(number=table)
+    order = Order.objects.filter(table=table.id)
+    total = 0
+    for i in order:
+        total += i.total
+    context = { 'table':table,
+                'order': order,
+                'total': total}   
+    return render(request, 'salepoint/payment.html', context)
