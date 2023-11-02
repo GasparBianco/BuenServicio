@@ -38,6 +38,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <label for="">Descuento general</label>
+                <input type="number" value="0" min="0" max="100" name="general-discount" id="general-discount">
                 <h3>Total: $<span id="total">{{ total }}</span></h3>
                 <label>Efectivo</label>
                 <input name="cash" type="checkbox">
@@ -45,25 +47,37 @@
             </form>
         </div>
     </div>
-            <script>
-                const discountInputs = document.querySelectorAll('.discount-input');
-                discountInputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        actualizarCostoTotal();
-                    });
-                });
-                function actualizarCostoTotal() {
-                    const totalElement = document.getElementById('total');
-                    let costoTotal = 0;
-                    const filas = document.querySelectorAll('tbody tr');
-                    filas.forEach(fila => {
-                        const costoProducto = parseFloat(fila.querySelector('.costo-individual').textContent.slice(1));
-                        const descuento = parseFloat(fila.querySelector('.discount-input').value);
-                        costoTotal += costoProducto * (1 - descuento / 100);
-                    });
-                    totalElement.textContent = costoTotal.toFixed(2);
-                }
+    <script>
+        const discountInputs = document.querySelectorAll('.discount-input');
+        discountInputs.forEach(input => {
+            input.addEventListener('input', () => {
                 actualizarCostoTotal();
-            </script>
+            });
+        });
+    
+        const discount = document.getElementById('general-discount');  // Cambié 'querySelector' a 'getElementById'
+        discount.addEventListener('input', () => {
+            actualizarCostoTotal();
+        });
+    
+        function actualizarCostoTotal() {
+            const totalElement = document.getElementById('total');
+            let costoTotal = 0;
+            const filas = document.querySelectorAll('tbody tr');
+            
+            filas.forEach(fila => {
+                const costoProducto = parseFloat(fila.querySelector('.costo-individual').textContent.slice(1));
+                const descuento = parseFloat(fila.querySelector('.discount-input').value);
+                costoTotal += costoProducto * (1 - descuento / 100);
+            });
+    
+            const descuentoGeneral = parseFloat(discount.value);  // Cambié 'fila' a 'discount' para obtener el valor del descuento general
+            costoTotal = costoTotal * (1 - descuentoGeneral / 100);
+    
+            totalElement.textContent = `${costoTotal.toFixed(2)}`;  // Formatea el costo total como una cadena con el signo de dólar
+        }
+    
+        actualizarCostoTotal();
+    </script>
 {% endblock %}
 
