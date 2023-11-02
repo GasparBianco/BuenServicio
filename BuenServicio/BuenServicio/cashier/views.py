@@ -53,10 +53,10 @@ def pay(request):
     for i in range(len(discounts)):
         if discounts[i] >= 0 and discounts[i] <= 100:
             cost.append(order[i].total * (1 - discounts[i]/100))
-
+    cost = sum(cost * (1 - request.POST.get('general-discount')/100))
     if request.POST.get('cash'):
         update = Cashier.objects.latest('open_date')
-        update.theorical_money = sum(cost) +  update.theorical_money
+        update.theorical_money = cost +  update.theorical_money
         update.save()
     Order.objects.filter(table=table_id).delete()
     Table.objects.filter(id = table_id).update(available=True)
