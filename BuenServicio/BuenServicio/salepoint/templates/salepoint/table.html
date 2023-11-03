@@ -32,6 +32,17 @@
                     <tbody id="search-results">
                     </tbody></table>
                 </ul>
+                <input type="text" name="comment" id="comment" maxlength="30" placeholder="Comentario, max 30 caracteres">
+                <label for="printer">Comandera</label>
+                <select name="printer" id="printer">
+                    {% if printers %}
+                    {% for i in printers %}
+                        <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option value="">No hay Impresora disponible</option>
+                    {% endif %}
+                </select>
                 <input type="submit" value="Guardar Productos">
             </form>
         </div>
