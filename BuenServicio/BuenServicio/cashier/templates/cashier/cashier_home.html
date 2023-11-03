@@ -1,0 +1,16 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cashier/css/cashier_home.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.user|has_group:"Cajero" %}
+<div class="center">
+    <a class="button" href="{% url 'cashier' %}">Abrir caja</a>
+    <a class="button" href="{% url 'sold_history' %}">Historial de ventas</a>
+</div>
+{% endif %}
+{% endblock %}

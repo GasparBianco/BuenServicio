@@ -1,0 +1,40 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cashier/css/cashier.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+{% if request.user|has_group:"Cajero" %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<a onclick="return confirm('Esta seguro que desea eliminar el historial de ventas? Esta accion es definitiva')" href="{% url 'reset_history' %}">Reiniciar historial de ventas</a>
+<table>
+    <thead>
+        <tr>
+            <th>Total</th>
+            <th>Mesa</th>
+            <th>Metodo de pago</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in history %}
+        <tr>
+            <th>{{i.price}}</th>
+            <th>{{i.table}}</th>
+            <th>{{i.payment_method}}</th>
+            <th>{{i.date}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

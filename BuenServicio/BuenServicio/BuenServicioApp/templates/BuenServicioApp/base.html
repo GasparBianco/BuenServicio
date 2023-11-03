@@ -20,7 +20,7 @@
             <ul class="nav-list">
                 <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Mesas</a></li>
                 {% if request.user|has_group:"Encargado" or request.user|has_group:"Cajero" %}
-                <li class="nav-item"><a href="{% url 'cashier' %}" class="nav-link">Caja</a></li>
+                <li class="nav-item"><a href="{% url 'cashier_home' %}" class="nav-link">Caja</a></li>
                 {% endif %}
                 {% if request.user|has_group:"Encargado" or request.user|has_group:"Encargado" %} 
                 <li class="nav-item dropdown">
@@ -37,8 +37,10 @@
             {% endif %}
         </nav>
     </header>
-    {% block content %}
-    {% endblock  %}    
+    <div class="content">
+        {% block content %}
+        {% endblock  %} 
+    </div>   
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-text">&copy; 2023 BuenServicio. Todos los derechos reservados.</p>

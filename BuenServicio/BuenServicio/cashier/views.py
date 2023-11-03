@@ -1,15 +1,26 @@
 from django.shortcuts import render, redirect
-from .models import Cashier
+from .models import Cashier, History
 from django.utils import timezone
 from salepoint.models import Order
 from tables.models import Table
 from django.contrib import messages
 
-# Create your views here.
+
+def cashier_home(request):
+    return render(request, 'cashier/cashier_home.html')
+
+def history(request):
+    history = History.objects.all()
+    return render(request, 'cashier/history.html', {'history': history})
+
+def reset_history(request):
+    History.objects.all().delete()
+    return redirect('sold_history')
+
 def cashier(request):
     message = list(messages.get_messages(request))
     context = {'cashier': Cashier.objects.all(),
-               'messages': message}
+                'messages': message}
     return render(request, 'cashier/cashier.html', context)
 
 def open_cashier(request):
@@ -53,11 +64,27 @@ def pay(request):
     for i in range(len(discounts)):
         if discounts[i] >= 0 and discounts[i] <= 100:
             cost.append(order[i].total * (1 - discounts[i]/100))
-    cost = sum(cost * (1 - request.POST.get('general-discount')/100))
+
+    cost = sum(cost) * (1 - int(request.POST.get('general-discount'))/100)
+
+    update = Cashier.objects.latest('open_date')
+    update.total_sold = update.total_sold + cost
+    payment_method = 'Otro'
     if request.POST.get('cash'):
-        update = Cashier.objects.latest('open_date')
+        payment_method = 'Efectivo'
         update.theorical_money = cost +  update.theorical_money
-        update.save()
+    update.save()
+
+
+
+    new = History(
+    price=cost,
+    table=Table.objects.filter(id = table_id)[0].number,  
+    payment_method=payment_method,
+    date = timezone.now()
+    )
+    new.save()
+
     Order.objects.filter(table=table_id).delete()
     Table.objects.filter(id = table_id).update(available=True)
     return redirect('home')

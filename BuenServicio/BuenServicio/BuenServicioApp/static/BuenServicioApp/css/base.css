@@ -5,6 +5,11 @@ body, h1, h2, h3, p, ul, li {
     list-style: none;
     text-decoration: none;
     color: inherit;
+    
+}
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
 body {
@@ -12,13 +17,14 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-    background-color: #f7f7f7
+    background-color: #f7f7f7;
+    
 }
 
 /* Header */
 .header {
     background-color: #222;
-    padding: 1rem 0;
+    padding: 3vh 0;
 }
 
 .navbar {
@@ -100,10 +106,16 @@ body {
     background-color: #313bb9;
 }
 
+.content {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Footer */
 .footer {
     background-color: #222;
-    padding: 1.5rem 0;
+    padding: 3vh 0;
     color: #fff;
     width: 100%;
     position: relative;

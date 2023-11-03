@@ -1,0 +1,24 @@
+/* Estilos para centrar vertical y horizontalmente */
+
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+/* Estilos para los botones */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Cambiar color de fondo al pasar el mouse */
+}
