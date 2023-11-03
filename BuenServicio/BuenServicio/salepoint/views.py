@@ -64,6 +64,37 @@ def order(request, table_number):
 
     return redirect('table', table=table_number)
 
+def reprint(request, table_number):
+    table = Table.objects.get(number = table_number)
+    order = Order.objects.filter(table=table.id)
+
+    hprinter = win32ui.CreateDC()
+    hprinter.CreatePrinterDC(win32print.GetDefaultPrinter())
+    hprinter.StartDoc('Comanda')
+    hprinter.StartPage()
+    command = "Reimpresion"
+    hprinter.TextOut(100,100,command)
+    command = f"Mesa {table_number}"
+    hprinter.TextOut(100,200,command)
+    if request.POST.get('comment'):
+        command = request.POST.get('comment')
+        hprinter.TextOut(100,300,command)
+    command = "Producto                    Cantidad"
+    hprinter.TextOut(100,400,command)
+    for i in range(len(order)):
+        
+            
+        command = f"{order[i].product}"
+        hprinter.TextOut(100,400+100*(i+1),command)
+        command = f"{order[i].quantity}"
+        hprinter.TextOut(700,400+100*(i+1),command)
+
+    hprinter.EndPage()
+    hprinter.EndDoc()
+
+
+    return redirect('table', table=table_number)
+
 def reset_table(request, table_number):
     
     table_id = Table.objects.get(number=table_number).id
