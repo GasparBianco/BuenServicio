@@ -43,6 +43,7 @@
                 <h3>Total: $<span id="total">{{ total }}</span></h3>
                 <label>Efectivo</label>
                 <input name="cash" type="checkbox">
+                <input type="submit" formaction="{% url 'count' table.number %}" value="Imprimir cuenta">
                 <input value="Cobrar" type="submit" onclick="return confirm('¿Seguro que deseas realizar el cobro?')">
             </form>
         </div>

@@ -104,7 +104,7 @@ def reset_table(request, table_number):
 
 def payment(request, table):
     table = Table.objects.get(number=table)
-    order = Order.objects.filter(table=table.id)
+    order = Order.objects.filter(table=table.id).order_by('id').all()
     total = 0
     for i in order:
         total += i.total
@@ -112,3 +112,53 @@ def payment(request, table):
                 'order': order,
                 'total': total}   
     return render(request, 'salepoint/payment.html', context)
+
+def count(request, table_number):
+    table = Table.objects.get(number = table_number)
+    order = Order.objects.filter(table=table.id)
+
+    hprinter = win32ui.CreateDC()
+    hprinter.CreatePrinterDC(win32print.GetDefaultPrinter())
+    hprinter.StartDoc('Comanda')
+    hprinter.StartPage()
+    command = f"Mesa {table_number}"
+    hprinter.TextOut(100,100,command)
+    if request.POST.get('comment'):
+        command = request.POST.get('comment')
+        hprinter.TextOut(100,200,command)
+    command = "Producto                    Precio"
+    hprinter.TextOut(100,300,command)
+    lines: int
+    discounts = request.POST.getlist('discount')
+    discounts = [int(value) for value in discounts]
+    cost = []
+    for i in range(len(order)):
+        if discounts[i] >= 0 and discounts[i] <= 100:
+            cost.append(order[i].total * (1 - discounts[i]/100))
+            lines = i
+            
+            command = f"{order[i].product}(x{order[i].quantity})"
+            hprinter.TextOut(100,300+100*(i+1),command)
+            command = f"${order[i].total * (1 - discounts[i]/100)}"
+            hprinter.TextOut(700,300+100*(i+1),command)
+        else:
+            cost.append(order[i].total)
+            lines = i
+            
+            command = f"{order[i].product}(x{order[i].quantity})"
+            hprinter.TextOut(100,300+100*(i+1),command)
+            command = f"${order[i].total}"
+            hprinter.TextOut(700,300+100*(i+1),command)
+    if int(request.POST.get('general-discount')) >= 0 or int(request.POST.get('general-discount'))<= 100:
+        cost = sum(cost) * (1 - int(request.POST.get('general-discount'))/100)
+    else:
+        cost = sum(cost)
+    command = f"TOTAL: ${cost}"
+    hprinter.TextOut(100,400+100*(lines+1),command)
+    hprinter.TextOut(100,500+100*(lines+1),'Ticket no valido')
+    hprinter.TextOut(100,600+100*(lines+1),'como factura.')
+    hprinter.EndPage()
+    hprinter.EndDoc()
+
+
+    return redirect('table', table=table_number)

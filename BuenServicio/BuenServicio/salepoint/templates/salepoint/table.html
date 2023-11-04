@@ -75,7 +75,6 @@
 <div class="buttons-container">
     <a href="{% url 'payment' table.number %}">Cobrar</a>
     <a href="{% url 'reprint' table.number %}">Reimprimir todo</a>
-    <a href="#">Precuenta</a>
     <a href="#">Editar Productos</a>
     <a id="reset" href="/{{ table.number }}/resettable" onclick="return confirm('¿Seguro que deseas reiniciar la mesa?')">Reiniciar Mesa</a>
 </div>

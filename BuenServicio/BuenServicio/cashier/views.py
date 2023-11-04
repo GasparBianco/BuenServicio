@@ -48,6 +48,7 @@ def close_cashier(request):
     return redirect('cashier')
 
 def pay(request):
+
     update = Cashier.objects.latest('open_date')
     table_id = request.POST.get('table_id')
     if update.close_date != None:
