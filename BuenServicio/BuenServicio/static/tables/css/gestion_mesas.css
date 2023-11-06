@@ -1,0 +1,48 @@
+.container-tables {
+    max-height: 70vh;
+    gap: 10px;
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.mesas-list{
+    list-style: none;
+    height: 90%; /* Ajusta la altura según tus necesidades */
+    overflow: auto; 
+}
+
+.mesas-list li{
+    display: flex;
+}
+
+/* Estilos para los formularios */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Estilos para los mensajes de error */
+.error {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para los mensajes de éxito */
+.success {
+    color: #008000;
+    font-size: 14px;
+    margin-top: 10px;
+}

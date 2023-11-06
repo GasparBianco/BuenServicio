@@ -1,0 +1,1 @@
+Start-Process powershell.exe -ArgumentList "-NoExit -Command & pip install -r requirements.txt ; python .\BuenServicio\BuenServicio\manage.py makemigrations; python .\BuenServicio\BuenServicio\manage.py migrate ; python .\BuenServicio\BuenServicio\manage.py runserver 0.0.0.0:8000"

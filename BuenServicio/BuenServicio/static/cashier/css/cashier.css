@@ -1,0 +1,55 @@
+/* Estilo básico para la tabla */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ccc;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Estilo para las filas impares de la tabla */
+  tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilo para los botones */
+  button, input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover, input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo para el cuadro de entrada de saldo final */
+  input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para el formulario de abrir y cerrar caja */
+  form {
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para las confirmaciones de apertura y cierre de caja */
+  .confirmation-message {
+    font-weight: bold;
+    color: red;
+  }
+  

@@ -1,0 +1,32 @@
+.home-container ul{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.home-container{
+    width: 90%;
+    position: relative;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.home-container li{
+    padding: 20px 0;
+    width: 9%;
+    border-radius: 10px;
+    text-align: center;
+}
+.home-container li a{
+    color: inherit;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .home-container li{
+        padding: 20px 0;
+        width: 30%;
+        border-radius: 10px;
+        text-align: center;
+    }
+    }
