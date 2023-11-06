@@ -8,7 +8,6 @@ body, h1, h2, h3, p, ul, li {
     
 }
 html, body {
-    height: 100%;
     margin: 0;
 }
 
@@ -106,20 +105,12 @@ body {
     background-color: #313bb9;
 }
 
-.content {
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-}
-
 /* Footer */
 .footer {
     background-color: #222;
     padding: 3vh 0;
     color: #fff;
     width: 100%;
-    position: relative;
-    bottom: 0;
 }
 
 .footer-text {

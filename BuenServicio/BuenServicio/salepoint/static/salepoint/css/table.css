@@ -1,6 +1,5 @@
 .container {
     justify-content: space-around;
-    max-height: 70vh;
     gap: 10px;
     display: flex;
     margin: 0;
@@ -10,7 +9,7 @@
 }
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 90%;
 }
 
 th, td {
@@ -23,9 +22,7 @@ th {
     background-color: #f2f2f2;
 }
 
-.left-container,
-.center-container,
-.right-container {
+.left-container {
     flex: 1;
     padding: 20px;
     background-color: #f7f7f7;
@@ -36,11 +33,13 @@ th {
 }
 
 .buttons-container{
+    width: 90%;
     position: relative;
     margin: auto 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .buttons-container a{
     color: inherit;
@@ -51,3 +50,20 @@ th {
     margin: 20px;
     border-radius: 10px;
 }
+
+@media (max-width: 768px) {
+    .container{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .left-container {
+    width: 350px;
+    min-width: 350px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+    overflow: auto;
+}
+    }
