@@ -40,18 +40,3 @@ input[type="number"] {
     margin-bottom: 10px;
     border: 1px solid #ccc;
 }
-
-/* Estilos para los mensajes de error */
-.error {
-    color: #ff0000;
-    font-size: 12px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-}
-
-/* Estilos para los mensajes de éxito */
-.success {
-    color: #008000;
-    font-size: 14px;
-    margin-top: 10px;
-}

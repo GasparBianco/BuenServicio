@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.db.models import F
 from django.core import serializers 
 from django.http import JsonResponse
+from django.db.models.deletion import ProtectedError
 from django.contrib import messages
 
 def addProduct(request):
@@ -31,14 +32,20 @@ def deleteOneProduct(request, id:int):
     except Product.DoesNotExist:
         confirmation = "No existe ese producto"
         messages.error(request, confirmation)
+    except ProtectedError:
+        confirmation = "No se puede eliminar debido a una mesa abierta con ese producto"
+        messages.error(request, confirmation)
     return redirect('products')
 
 
 def deleteAllProducts(request):
-    
-    Product.objects.all().delete()
-    confirmation = "Todos los productos han sido eliminados"
-    messages.success(request, confirmation)
+    try:
+        Product.objects.all().delete()
+        confirmation = "Todos los productos han sido eliminados"
+        messages.success(request, confirmation)
+    except ProtectedError:
+        confirmation = "No se puede eliminar debido a mesas abiertas"
+        messages.error(request, confirmation)
     return redirect('products')
 
 
@@ -120,6 +127,9 @@ def deleteOneCategory(request):
         messages.success(request, confirmation)
     except Product.DoesNotExist:
         confirmation = "No existe esa categoria"
+        messages.error(request, confirmation)
+    except ProtectedError:
+        confirmation = "No se puede eliminar debido a productos con esa categoria"
         messages.error(request, confirmation)
     return redirect('products')
 

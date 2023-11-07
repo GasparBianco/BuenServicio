@@ -26,7 +26,7 @@ def cashier(request):
 def open_cashier(request):
     try:
         if Cashier.objects.latest('open_date').close_date == None:
-            messages.info(request, "No se puede abrir una nueva caja sin cerrar la anterior")
+            messages.error(request, "No se puede abrir una nueva caja sin cerrar la anterior")
             return redirect('cashier')
     except: Exception
     new = Cashier(
@@ -35,18 +35,18 @@ def open_cashier(request):
     theorical_money=int(request.POST.get('open')),
     )
     new.save()
-    messages.info(request, 'Caja abierta correctamente')
+    messages.success(request, 'Caja abierta correctamente')
     return redirect('cashier')
 
 def close_cashier(request):
     update = Cashier.objects.latest('open_date')
     if update.close_date != None:
-        messages.info(request, 'No hay ninguna caja abierta actualmente')
+        messages.error(request, 'No hay ninguna caja abierta actualmente')
         return redirect('cashier')
     update.close_money = int(request.POST.get('close'))
     update.close_date = timezone.now()
     update.save()
-    messages.info(request, 'Caja cerrada correctamente')
+    messages.success(request, 'Caja cerrada correctamente')
     return redirect('cashier')
 
 def pay(request):
@@ -56,7 +56,7 @@ def pay(request):
     table_id = request.POST.get('table_id')
     if update.close_date != None:
         table = Table.objects.filter(id = table_id)
-        messages.info(request, "No hay ninguna caja abierta actualmente")
+        messages.error(request, "No hay ninguna caja abierta actualmente")
         return redirect('table', table=table[0].number)
     
 

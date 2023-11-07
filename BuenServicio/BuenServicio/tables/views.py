@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Table
 from .forms import OneTableForm, ManyTableForm
 from django.db import IntegrityError
+from django.contrib import messages
+from django.db.models.deletion import ProtectedError
 
 def addOneTable(request):
     form = OneTableForm(request.POST)
@@ -11,16 +13,11 @@ def addOneTable(request):
         new_table = Table(number=number)
         new_table.save() 
         confirmation = "La mesa se ha registrado correctamente"
+        messages.success(request, confirmation)
     except IntegrityError:
         confirmation = "El numero ingresado ya existe o no es valido"
-    tables = Table.objects.values_list('number', flat=True)
-    context = {
-        'tables':tables,
-        'confirmation': confirmation,
-        'one_table_form': OneTableForm(),
-        'many_table_form': ManyTableForm()
-        }
-    return render(request, 'tables/gestion_mesas.html', context)
+        messages.error(request, confirmation)
+    return redirect('tables')
 
 def addManyTables(request):
     form = ManyTableForm(request.POST)
@@ -31,20 +28,15 @@ def addManyTables(request):
             try:
                 new_table = Table(number=number)
                 new_table.save() 
-                confirmation = "La mesa se ha registrado correctamente"
+                confirmation = "Mesas registradas correctamente"
+                messages.success(request, confirmation)
             except IntegrityError:
                 confirmation = "La mesa con ese número ya existe"
+                messages.error(request, confirmation)
     else:
         confirmation = "Las mesas no se han podido registrar"
-
-    tables = Table.objects.values_list('number', flat=True)
-    context = {
-        'tables':tables,
-        'confirmation': confirmation,
-        'one_table_form': OneTableForm(),
-        'many_table_form': ManyTableForm()
-        }
-    return render(request, 'tables/gestion_mesas.html', context)
+        messages.error(request, confirmation)
+    return redirect('tables')
 
 def deleteOneTable(request):
     number = request.POST.get('number')
@@ -52,16 +44,11 @@ def deleteOneTable(request):
         mesa = Table.objects.get(number=number)
         mesa.delete()
         confirmation = f"La mesa {number} ha sido eliminada"
+        messages.success(request, confirmation)
     except Table.DoesNotExist:
         confirmation = f"No existe una mesa con el número {number}"
-    tables = Table.objects.values_list('number', flat=True)
-    context = {
-        'tables':tables,
-        'confirmation': confirmation,
-        'one_table_form': OneTableForm(),
-        'many_table_form': ManyTableForm()
-        }
-    return render(request, 'tables/gestion_mesas.html', context)
+        messages.error(request, confirmation)
+    return redirect('tables')
 
 def gestion_mesas(request):
     tables = Table.objects.order_by('number').values_list('number', flat=True)
@@ -73,15 +60,11 @@ def gestion_mesas(request):
     return render(request, 'tables/gestion_mesas.html', context)
 
 def deleteAllTables(request):
-    if 'delete' in request.POST:
+    try:
         Table.objects.all().delete()
         confirmation = "Todas las mesas han sido eliminadas"
-        tables = Table.objects.values_list('number', flat=True)
-        context = {
-        'tables':tables,
-        'confirmation': confirmation,
-        'one_table_form': OneTableForm(),
-        'many_table_form': ManyTableForm()
-        }
-        return render(request, 'tables/gestion_mesas.html', context)
-    return render(request, 'tables/delete_all_tables.html')
+        messages.success(request, confirmation)
+    except ProtectedError:
+        confirmation = "No se han podido eliminar debido a mesas abiertas"
+        messages.error(request, confirmation)
+    return redirect('tables')
