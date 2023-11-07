@@ -33,12 +33,12 @@
         <form method="post" action="{% url 'add_one_table' %}">
             {% csrf_token %}
             {{ one_table_form.as_p }}
-            <button class="button" type="submit" name="one_table_form_submit">Enviar Formulario OneTableForm</button>
+            <button class="button" type="submit" name="one_table_form_submit">Crear mesa</button>
         </form>
         <form method="post" action="{% url 'add_many_tables' %}">
             {% csrf_token %}
             {{ many_table_form.as_p }}
-            <button class="button" type="submit" name="many_table_form_submit">Enviar Formulario ManyTableForm</button>
+            <button class="button" type="submit" name="many_table_form_submit">Crear mesas</button>
         </form>
     </div>
 </div>

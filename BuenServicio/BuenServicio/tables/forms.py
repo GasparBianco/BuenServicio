@@ -1,11 +1,11 @@
 from django import forms
 
 class OneTableForm(forms.Form):
-    number = forms.IntegerField()
+    number = forms.IntegerField(label="Numero")
 
 class ManyTableForm(forms.Form):
-    start = forms.IntegerField()
-    end = forms.IntegerField()
+    start = forms.IntegerField(label="Inicio")
+    end = forms.IntegerField(label="Final")
         
     def clean(self):
         cleaned_data = super().clean()

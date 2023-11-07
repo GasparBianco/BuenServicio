@@ -1,28 +1,37 @@
 .container-tables {
+    justify-content: center;
     max-height: 70vh;
     gap: 10px;
     display: flex;
-    max-width: 600px;
-    margin: 0 auto;
+    margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
 }
 .mesas-list{
+    justify-content: space-evenly;
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
     list-style: none;
     height: 90%; /* Ajusta la altura según tus necesidades */
     overflow: auto; 
 }
 
 .mesas-list li{
+    min-width: 210px;
+    width: 32%;
     display: flex;
 }
 
-/* Estilos para los formularios */
-form {
+form{
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ddd;
+}
+/* Estilos para los formularios */
+.right-container form {
+    min-width: 300px;
 }
 
 input[type="number"] {

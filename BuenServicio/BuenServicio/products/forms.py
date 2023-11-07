@@ -6,6 +6,11 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        labels = {
+            'name': 'Nombre',
+            'cost': 'Precio',
+            'category': "Categoria"
+        }
 
     def clean_cost(self):
         self.cost = self.cleaned_data.get('cost')
@@ -17,6 +22,8 @@ class ProductCategoryForm(ModelForm):
     class Meta:
         model = ProductCategory
         fields = '__all__'
+        labels = {
+            'name': 'Cateogria',}
 
 class FactorForm(forms.Form):
 

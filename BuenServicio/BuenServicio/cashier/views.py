@@ -24,9 +24,11 @@ def cashier(request):
     return render(request, 'cashier/cashier.html', context)
 
 def open_cashier(request):
-    if Cashier.objects.latest('open_date').close_date == None:
-        messages.info(request, "No se puede abrir una nueva caja sin cerrar la anterior")
-        return redirect('cashier')
+    try:
+        if Cashier.objects.latest('open_date').close_date == None:
+            messages.info(request, "No se puede abrir una nueva caja sin cerrar la anterior")
+            return redirect('cashier')
+    except: Exception
     new = Cashier(
     cashier_user=str(request.user.username),
     open_money=int(request.POST.get('open')),  
@@ -48,6 +50,7 @@ def close_cashier(request):
     return redirect('cashier')
 
 def pay(request):
+
 
     update = Cashier.objects.latest('open_date')
     table_id = request.POST.get('table_id')

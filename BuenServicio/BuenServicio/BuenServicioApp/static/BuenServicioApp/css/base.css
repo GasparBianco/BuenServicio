@@ -56,6 +56,17 @@ body {
     font-weight: 500;
     transition: color 0.3s;
 }
+.messages{
+    position: relative;
+    text-align: center;
+    font-size: larger;
+}
+.error{
+    color: red;
+}
+.success{
+    color: rgb(0, 200, 0);
+}
 
 .nav-link:hover {
     color: #f39c12;
@@ -103,6 +114,10 @@ body {
 .button:hover {
     color: #ffffff;
     background-color: #313bb9;
+}
+
+.content{
+    min-height: 75vh;
 }
 
 /* Footer */

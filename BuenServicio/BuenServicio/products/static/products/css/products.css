@@ -8,6 +8,8 @@
     border: 1px solid #ccc;
     background-color: #f9f9f9;
 }
+
+
 .products-list{
     list-style: none;
     height: 70%;
@@ -17,9 +19,24 @@
 .products-list li{
     display: flex;
 }
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
 
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
 /* Estilos para los formularios */
-form {
+
+.center-container,
+.right-container form {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ddd;

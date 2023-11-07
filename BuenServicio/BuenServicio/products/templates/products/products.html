@@ -8,21 +8,35 @@
 
 {% block content %}
 {% if request.user|has_group:"Encargado" or request.user|has_group:"Administrador" %}
-{% if request.method == 'POST' %}
-    <h3>{{ confirmation }}</h3>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 <div class="container-products">
     <div class="left-container">
         <h2>Productos Registrados</h2>
         <a href="{% url 'update_all_products' %}">Actualizar todos los productos</a>
-        <a href="{% url 'delete_all_products' %}">Eliminar todos los productos</a>
+        <a href="{% url 'delete_all_products' %}" onclick="return confirm('Seguro deseas eliminar todos los productos?')">Eliminar todos los productos</a>
         <input type="text" id="search-input" placeholder="Buscar productos">
-        <ul class="products-list" id="search-results">
-        </ul>
+            <table class="products-list">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="search-results">
+                </tbody>
+            </table>
     </div>
     <div class="center-container">
         <h2>Categorias Registradas</h2>
-        <a href="{% url 'delete_all_categories' %}">Eliminar todas las categorias</a>
+        <a href="{% url 'delete_all_categories' %}" onclick="return confirm('Seguro deseas eliminar todas las categorias?')">Eliminar todas las categorias</a>
+
         <ul class="products-list">
             {% for category in categories %}
                 <li>                    
@@ -52,40 +66,9 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function performSearch() {
-        var query = $('#search-input').val();
-        $.get('{% url "search_products" %}', {query: query}, function(data) {
-            var results = JSON.parse(data.products);
-            var resultsHtml = '';
-            for (var i = 0; i < results.length; i++) {
-                resultsHtml += '<li>' +
-                    '<p>' + results[i].fields.name + '</p>' +
-                    '<p>$' + results[i].fields.cost + '</p>' +
-                    '<form method="post" action="{% url "update_one_product" %}">' +
-                    '{% csrf_token %}' +
-                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                    '<button class="button" type="submit">Editar</button>' +
-                    '</form>' +
-                    '<form method="post" action="{% url "delete_one_product" %}">' +
-                    '{% csrf_token %}' +
-                    '<input type="hidden" name="id" value="' + results[i].pk + '">' +
-                    '<button class="button" type="submit">Eliminar</button>' +
-                    '</form>' +
-                    '</li>';
-            }
-
-            $('#search-results').html('<ul class="products-list">' + resultsHtml + '</ul>');
-        });
-    }
-
-    $(document).ready(function() {
-        performSearch();
-
-        $('#search-input').on('input', function() {
-            performSearch();
-        });
-    });
-</script>
+<script src="{% static 'products/js/script.js' %}"></script>
 {% endif %}
 {% endblock %}
+
+<a href="/products/updateoneproduct/">Editar</a>
+<a href="/products/deleteoneproduct/">Eliminar</a>
