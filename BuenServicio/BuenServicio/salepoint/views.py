@@ -5,6 +5,7 @@ from products.models import Product
 from django.shortcuts import redirect
 from django.contrib import messages
 import win32print
+from django.utils import timezone
 import win32ui
 
 def home(request):
@@ -28,6 +29,42 @@ def table(request, table):
                 'printers': printers_names}                
     
     return render(request, 'salepoint/table.html', context)
+
+def edit(request, table_number):
+    table = Table.objects.get(number = table_number)
+    order = Order.objects.filter(table=table.id)
+    total = 0
+    for i in order:
+        total += i.total
+    context = { 'table':table,
+                'order': order,
+                'total': total}
+    return render(request, 'salepoint/edit.html', context)    
+
+def edit_order(request, table_number):
+    quantity_list = request.POST.getlist('quantity')
+    id_list = request.POST.getlist('id')
+    try:
+        for i in range(len(id_list)):
+            product = Order.objects.get(id=id_list[i])
+            quantity = quantity_list[i]
+        
+            if int(quantity) != product.quantity:
+                cost = product.total/product.quantity
+                product.quantity = int(quantity)
+                product.total = cost * int(quantity)
+                product.save()
+        messages.success(request, "Orden actualizada correctamente")
+    except:
+        messages.error(request, "No se pudieron efectuar los cambios")
+
+    return redirect('table', table=table_number)
+
+
+def remove_product(request, table_number,id):
+    Order.objects.get(id=id).delete()
+    messages.success(request, "Producto eliminado correctamente")
+    return redirect('table', table=table_number)
 
 def order(request, table_number):
 
@@ -76,9 +113,7 @@ def reprint(request, table_number):
     hprinter.TextOut(100,100,command)
     command = f"Mesa {table_number}"
     hprinter.TextOut(100,200,command)
-    if request.POST.get('comment'):
-        command = request.POST.get('comment')
-        hprinter.TextOut(100,300,command)
+    hprinter.TextOut(100,300,str(timezone.now()))
     command = "Producto                    Cantidad"
     hprinter.TextOut(100,400,command)
     for i in range(len(order)):
@@ -155,8 +190,6 @@ def count(request, table_number):
         cost = sum(cost)
     command = f"TOTAL: ${cost}"
     hprinter.TextOut(100,400+100*(lines+1),command)
-    hprinter.TextOut(100,500+100*(lines+1),'Ticket no valido')
-    hprinter.TextOut(100,600+100*(lines+1),'como factura.')
     hprinter.EndPage()
     hprinter.EndDoc()
 

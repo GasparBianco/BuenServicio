@@ -1,0 +1,45 @@
+{% extends 'BuenServicioApp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'salepoint/css/table.css' %}">
+{% endblock extra_css %}
+{% block title %}BuenServicio{% endblock %}
+
+{% block content %}
+<h1>Mesa {{table.number}}</h1>
+    <div class="container">
+        <div class="left-container">
+            <h2>Productos consumidos</h2>
+            <form action="{% url 'edit_order' table.number %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="table_id" value="{{ table.id }}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad</th>
+                            <th>Costo</th>
+                            <th>Hora de la Venta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in order %}
+                        <tr>
+                            <td>{{ product.product }}</td>
+                            <input type="hidden" value="{{product.id}}" name="id">
+                            <td><input type="number" min="1" value="{{ product.quantity }}" name="quantity"></td>
+                            <td class="costo-individual">${{ product.total }}</td>
+                            <td>{{ product.timestamp|date:"H:i" }}</td>
+                            <td><a onclick="return confirm('Seguro desea eliminar el producto?')" href="{% url 'remove_product' product.id table.number %}">Eliminar</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input value="Efectuar cambios" type="submit" onclick="return confirm('¿Seguro que deseas realizar estos cambios?')">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
